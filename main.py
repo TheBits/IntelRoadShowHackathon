@@ -1,3 +1,4 @@
+import re
 import subprocess
 import uuid
 
@@ -21,11 +22,22 @@ def recognize(audio_file):
     out_text = subprocess.check_output(command)
     out_text = str(out_text)
     print(out_text)
+    try:
+        out = re.search('^.*variant.*>(.*)<.*$', out_text, re.M).group(1)
+    except Exception:
+        out = None
+    return out
+
+def get_first_int(text)
+    try:
+        return int(text.split(' ')[0])
+    except Exception:
+        return None
 
 if __name__ == '__main__':
     print('start record')
     save_mic()
     print('stop record')
     print('start speech to text')
-    recognize(OUT_FILE)
-    print('ok')
+    text = recognize(OUT_FILE)
+    print('ok', text)
